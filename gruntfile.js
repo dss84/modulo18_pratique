@@ -2,7 +2,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
         less: {
             dist: {
-                options: { compress: true },
+                options: {
+                    compress: true, 
+                },
                 files: {
                     "dist/styles/main.css": "src/styles/main.less",
                 },

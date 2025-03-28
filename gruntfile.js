@@ -1,49 +1,61 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     grunt.initConfig({
-        less: {
-            dist: {
-                options: {
-                    compress: true, 
-                },
-                files: {
-                    "dist/styles/main.css": "src/styles/main.less",
-                },
-            },
+      less: {
+        dev: {
+          files: {
+            "dev/styles/main.css": "src/styles/main.less"
+          }
         },
-        uglify: {
-            dist: {
-                files: {
-                    "dist/scripts/main.js": ["src/scripts/main.js"],
-                },
-            },
+        dist: {
+          options: {
+            compress: true
+          },
+          files: {
+            "dist/styles/main.css": "src/styles/main.less"
+          }
+        }
+      },
+      uglify: {
+        dist: {
+          files: {
+            "dist/scripts/main.js": ["src/scripts/main.js"]
+          }
+        }
+      },
+      copy: {
+        dev: {
+          files: [
+            { src: "src/index.html", dest: "dev/index.html" },
+            { src: "src/scripts/main.js", dest: "dev/scripts/main.js" }
+          ]
         },
-        copy: {
-            html: {
-                files: [
-                    { src: "src/index.html", dest: "dist/index.html" },
-                ],
-            },
+        dist: {
+          files: [
+            { src: "src/index.html", dest: "dist/index.html" }
+          ]
+        }
+      },
+      watch: {
+        styles: {
+          files: ["src/styles/**/*.less"],
+          tasks: ["less"]
         },
-        watch: {
-            styles: {
-                files: ["src/styles/**/*.less"],
-                tasks: ["less"],
-            },
-            scripts: {
-                files: ["src/scripts/**/*.js"],
-                tasks: ["uglify"],
-            },
-            html: {
-                files: ["src/*.html"],
-                tasks: ["copy"],
-            },
+        scripts: {
+          files: ["src/scripts/**/*.js"],
+          tasks: ["copy:dev"]
         },
+        html: {
+          files: ["src/*.html"],
+          tasks: ["copy"]
+        }
+      }
     });
-
+  
     grunt.loadNpmTasks("grunt-contrib-less");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-watch");
-
-    grunt.registerTask("default", ["less", "uglify", "copy"]);
-};
+  
+    grunt.registerTask("default", ["less:dist", "uglify:dist", "copy:dist"]);
+    grunt.registerTask("dev", ["less:dev", "copy:dev", "watch"]);
+  };

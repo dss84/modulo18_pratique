@@ -1,13 +1,33 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('form-sorteador').addEventListener('submit', function(evento) {
-        evento.preventDefault();
-        let numeroMaximo = document.getElementById('numero-maximo').value;
-        numeroMaximo = parseInt(numeroMaximo);
+document.addEventListener('DOMContentLoaded', () => {
+    const paletteContainer = document.getElementById('color-palette');
+    const generateButton = document.getElementById('generate-palette');
 
-        let numeroAleatorio = Math.random() * numeroMaximo;
-        numeroAleatorio = Math.floor(numeroAleatorio + 1);
+    const generateRandomColor = () => {
+        return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+    };
 
-        document.getElementById('resultado-valor').innerText = numeroAleatorio
-        document.querySelector('.resultado').style.display = 'block';
-    })
-})
+    const createColorBox = (color) => {
+        const container = document.createElement('div');
+        container.className = 'color-box';
+        container.style.backgroundColor = color;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.textContent = color;
+
+        container.appendChild(overlay);
+        return container;
+    };
+
+    const generatePalette = () => {
+        paletteContainer.innerHTML = ''; 
+        for (let i = 0; i < 5; i++) {
+            const color = generateRandomColor();
+            paletteContainer.appendChild(createColorBox(color));
+        }
+    };
+
+    generateButton.addEventListener('click', generatePalette);
+
+    generatePalette();
+});

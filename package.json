@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "grunt": "grunt",
-    "build": "grunt build",
+    "build": "grunt",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
